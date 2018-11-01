@@ -604,6 +604,13 @@ class UpdateHandler(BaseHandler):
                     new_data[n]['marker'][marker_prop]) if append else \
                     new_data[n]['marker'][marker_prop]
 
+            # todo: Generalize to support more traceopts updates
+            for traceopts_update in ['error_y']:
+                if traceopts_update in pdata[idx]:
+                    pdata[idx][traceopts_update]['array'] = \
+                        (pdata[idx][traceopts_update]['array'] + new_data[idx][traceopts_update]['array']) \
+                            if append else new_data[idx][traceopts_update]['array']
+
         return p
 
     @staticmethod
