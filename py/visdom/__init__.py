@@ -1007,7 +1007,7 @@ class Visdom(object):
                 opts['width'] = 1.35 * int(math.ceil(float(width)))
         return self.svg(svgstr=svg, opts=opts, env=env, win=win)
 
-    def plotlyplot(self, figure, win=None, env=None):
+    def plotlyplot(self, figure, win=None, env=None, opts=None):
         """
         This function draws a Plotly 'Figure' object. It does not explicitly
         take options as it assumes you have already explicitly configured the
@@ -1177,7 +1177,7 @@ class Visdom(object):
         return win
 
     @pytorch_wrap
-    def image(self, img, win=None, env=None, opts=None):
+    def image(self, img, win=None, env=None, opts=None, update=None):
         """
         This function draws an img. It takes as input an `CxHxW` or `HxW` tensor
         `img` that contains the image. The array values can be float in [0,1] or
@@ -1222,7 +1222,7 @@ class Visdom(object):
 
         endpoint = 'events'
         if opts.get('store_history'):
-            if win is not None and self.win_exists(win, env):
+            if win is not None and (self.win_exists(win, env) or update):
                 endpoint = 'update'
 
         return self._send({
